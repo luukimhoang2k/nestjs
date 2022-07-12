@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
-export class CreateWord {
+export class CreateWordDto {
   @IsNumber()
   @IsNotEmpty()
   id: number;

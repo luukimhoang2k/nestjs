@@ -1,29 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { CreateWord } from 'src/dto/word';
-import { Word } from 'src/types/Word';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CreateWordDto } from 'src/dto/word';
+import { Word as WordEntity } from 'src/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class WordService {
-  private words: Word[] = [
-    { id: 1, text: 'a' },
-    { id: 2, text: 'b' },
-    { id: 3, text: 'c' },
-  ];
+  constructor(
+    @InjectRepository(WordEntity)
+    private readonly wordsRepository: Repository<WordEntity>,
+  ) {}
 
-  getAllWords() {
-    return {
-      data: this.words,
-    };
-  }
-
-  findWord(id: number) {
-    return this.words.find((word) => word.id === id);
-  }
-
-  createWord(createWordDto: CreateWord) {
-    const newWords = [...this.words];
-    newWords.push(createWordDto);
-    newWords.sort((a, b) => a.id - b.id);
-    this.words = newWords;
+  createWord(createWordDto: CreateWordDto) {
+    const newWord = this.wordsRepository.create(createWordDto);
+    return this.wordsRepository.save(newWord);
   }
 }
