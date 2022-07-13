@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
@@ -17,9 +18,24 @@ import { WordService } from './word.service';
 export class WordController {
   constructor(private wordService: WordService) {}
 
+  @Get()
+  getAllWords() {
+    return this.wordService.findAllWords();
+  }
+
   @Post()
   @UsePipes(ValidationPipe)
   createWord(@Body() createWordDto: CreateWordDto) {
     return this.wordService.createWord(createWordDto);
+  }
+
+  @Post('find/:id')
+  findIdWord(@Param('id') id: number) {
+    return this.wordService.findIdWord(id);
+  }
+
+  @Delete(':id')
+  deleteWord(@Param('id') id: number) {
+    return this.wordService.removeWord(id);
   }
 }

@@ -20,7 +20,7 @@ import entities from './typeorm';
       synchronize: true,
     }),
   ],
-  controllers: [AppController, UserController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

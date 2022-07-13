@@ -8,8 +8,7 @@ export class Word {
   id: number;
 
   @Column({
-    nullable: false,
-    default: 'a',
+    nullable: true,
   })
   text: string;
 }
